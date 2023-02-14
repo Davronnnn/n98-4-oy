@@ -1,43 +1,37 @@
 const elTopList = findElement('#products-top');
 const elTopTemplate = findElement('#product-template');
 
-const elLangSelect = findElement('#language-select');
+const loader = findElement('#loader');
 
-let lang = sessionStorage.getItem('lang');
+let products = [];
 
-elLangSelect.value = lang;
+const BASE_URL = 'https://fakestoreapi.com';
 
-if (lang === 'uz') {
-	document.title = "Internet do'kon";
-} else if (lang === 'en') {
-	document.title = 'E-commerce';
-} else if (lang === 'ru') {
-	document.title = 'Интернет магазин';
-}
+fetch(BASE_URL + '/products')
+	.then((res) => res.json())
+	.then((res) => {
+		products = res;
+		renderProducts(products, elTopList);
+		loader.style.cssText = 'display: none';
+	})
+	.catch((err) => {
+		console.error(err);
+	});
 
-elLangSelect.addEventListener('change', () => {
-	const value = elLangSelect.value;
+const elInput = findElement('#country');
 
-	sessionStorage.setItem('lang', value);
-	lang = value;
-	if (lang === 'uz') {
-		document.title = "Internet do'kon";
-	} else if (lang === 'en') {
-		document.title = 'E-commerce';
-	} else if (lang === 'ru') {
-		document.title = 'Интернет магазин';
-	}
+const map = findElement('#map');
+elInput.addEventListener('change', () => {
+	fetch('https://restcountries.com/v3.1/name/' + elInput.value)
+		.then((res) => res.json())
+		.then((data) => {
+			console.log(data);
+			map.href = data[0].maps.googleMaps;
+			console.log(data[0].maps.googleMaps);
+		});
 });
-
-renderProducts(products, elTopList);
-
-const obj = {
-	name: 'john',
-	age: 20,
-};
-const arr = [1, 2, 3, 4, 5, 6];
-
-localStorage.setItem('person', arr);
-
-const person = localStorage.getItem('person');
-console.log(person.split(','));
+fetch('https://restcountries.com/v3.1/name/uzbekistan')
+	.then((res) => res.json())
+	.then((data) => {
+		console.log(data);
+	});
