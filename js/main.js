@@ -18,20 +18,3 @@ fetch(BASE_URL + '/products')
 		console.error(err);
 	});
 
-const elInput = findElement('#country');
-
-const map = findElement('#map');
-elInput.addEventListener('change', () => {
-	fetch('https://restcountries.com/v3.1/name/' + elInput.value)
-		.then((res) => res.json())
-		.then((data) => {
-			console.log(data);
-			map.href = data[0].maps.googleMaps;
-			console.log(data[0].maps.googleMaps);
-		});
-});
-fetch('https://restcountries.com/v3.1/name/uzbekistan')
-	.then((res) => res.json())
-	.then((data) => {
-		console.log(data);
-	});
