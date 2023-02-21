@@ -3,15 +3,6 @@ const elTopTemplate = findElement('#product-template');
 
 const loader = findElement('#loader');
 
-const topButton = findElement('#to-top');
-
-function toTop() {
-	// click button to top page
-	window.scrollTo(0, 0);
-	// console.log(window.scrollY);
-	// window.scrollY = '0';
-}
-
 let products = [];
 let favoriteProducts = [];
 
@@ -25,7 +16,6 @@ function changeLoading(isLoading) {
 
 const BASE_URL = 'https://63d3e856a93a149755b5c8f1.mockapi.io/';
 
-//IIFE
 const getData = async () => {
 	try {
 		changeLoading(true);
@@ -50,14 +40,10 @@ getData();
 elTopList.addEventListener('click', (evt) => {
 	const target = evt.target;
 
-	console.log(target.id);
 	if (target.id.includes('like') || target.id === 'path') {
 		const id = Number(target.dataset.id);
 
-		console.log(products);
 		products.forEach((product) => {
-			console.log(product.id, id);
-
 			if (+product.id === id) {
 				product.isFavorite = !product.isFavorite;
 
