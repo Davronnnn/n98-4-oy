@@ -1,20 +1,62 @@
+import renderProducts from './utils/renderProducts.js';
+import changeLoading from './utils/changeLoading.js';
+import findElement from './utils/findElement.js';
+import BASE_URL from './utils/api.js';
+
 const elTopList = findElement('#products-top');
 const elTopTemplate = findElement('#product-template');
 
+const ulCategories = findElement('#categories');
 const loader = findElement('#loader');
 
 let products = [];
 let favoriteProducts = [];
+let categories = [];
 
-function changeLoading(isLoading) {
-	if (isLoading) {
-		loader.style.display = 'block';
-	} else {
-		loader.style.display = 'none';
+fetch(BASE_URL + 'categories')
+	.then((res) => res.json())
+	.then((res) => {
+		categories = res;
+		renderCategories(categories, ulCategories);
+	});
+
+const renderCategories = (array, parent) => {
+	const newli = document.createElement('li');
+	newli.className = 'list-group-item';
+
+	newli.textContent = 'All';
+
+	parent.appendChild(newli);
+	array.forEach((category) => {
+		const newli = document.createElement('li');
+		newli.className = 'list-group-item';
+
+		newli.textContent = category.name;
+
+		parent.appendChild(newli);
+	});
+};
+
+ulCategories.addEventListener('click', (evt) => {
+	const target = evt.target;
+
+	if (target.className.includes('list-group-item')) {
+		const category = target.textContent;
+
+		const result = [];
+
+		if (category.toLowerCase() !== 'all'.toLowerCase()) {
+			products.forEach((product) => {
+				if (product.category === category) {
+					result.push(product);
+				}
+			});
+			renderProducts(result, elTopList, elTopTemplate);
+		} else {
+			renderProducts(products, elTopList, elTopTemplate);
+		}
 	}
-}
-
-const BASE_URL = 'https://63d3e856a93a149755b5c8f1.mockapi.io/';
+});
 
 const getData = async () => {
 	try {
@@ -47,19 +89,17 @@ elTopList.addEventListener('click', (evt) => {
 			if (+product.id === id) {
 				product.isFavorite = !product.isFavorite;
 
-				fetch(
-					`https://63d3e856a93a149755b5c8f1.mockapi.io/products/${id}`,
-					{
-						method: 'put',
-						body: JSON.stringify({
-							...product,
-							isFavorite: product.isFavorite,
-						}),
-						headers: {
-							'Content-Type': 'application/json',
-						},
-					}
-				)
+				fetch(BASE_URL + `products/${id}`, {
+					method: 'put',
+					body: JSON.stringify({
+						...product,
+						isFavorite: product.isFavorite,
+					}),
+					headers: {
+						Authorization: 'Bearer ' + token,
+						'Content-Type': 'application/json',
+					},
+				})
 					.then((res) => res.json())
 					.then((res) => {
 						console.log(res);

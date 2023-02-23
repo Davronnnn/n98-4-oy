@@ -1,7 +1,8 @@
+import BASE_URL from './utils/api';
+
 const elTopList = findElement('#products-top');
 const elTopTemplate = findElement('#product-template');
 
-const BASE_URL = 'https://63d3e856a93a149755b5c8f1.mockapi.io/';
 const loader = findElement('#loader');
 const loaderPost = findElement('#loader-post');
 
@@ -39,7 +40,6 @@ elForm.addEventListener('submit', (evt) => {
 	})
 		.then((res) => res.json())
 		.then((data) => {
-			console.log(data);
 			loaderPost.style.display = 'none';
 			submitBtn.disabled = '';
 			getData();
@@ -62,6 +62,7 @@ const getData = async () => {
 		changeLoading(true);
 		const res = await fetch(BASE_URL + '/products');
 		if (res.status === 404) {
+			// not found
 			throw new Error('xato ketdi');
 		}
 		const res2 = await res.json();

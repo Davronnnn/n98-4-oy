@@ -1,3 +1,5 @@
+import findElement from './findElement.js';
+
 function renderProducts(array, parent, template, isAdmin = false) {
 	parent.textContent = null;
 	array.forEach((product) => {
@@ -7,6 +9,7 @@ function renderProducts(array, parent, template, isAdmin = false) {
 		const elTitle = findElement('#title', newProduct);
 		const elPrice = findElement('#price', newProduct);
 		const elRating = findElement('#rating', newProduct);
+		const elCategory = findElement('.category', newProduct);
 		const elImg = findElement('img', newProduct);
 
 		if (product.isFavorite) {
@@ -27,8 +30,11 @@ function renderProducts(array, parent, template, isAdmin = false) {
 		elTitle.textContent = product.name;
 		elPrice.textContent = product.price + '$';
 		elRating.textContent = '⭐️' + product.rating;
+		elCategory.textContent = product.category;
 		elImg.src = product.image;
 
 		parent.appendChild(newProduct);
 	});
 }
+
+export default renderProducts;

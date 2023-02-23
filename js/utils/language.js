@@ -1,3 +1,5 @@
+import findElement from './findElement.js';
+
 const elLangSelect = findElement('#language-select');
 
 const elLoginBtn = findElement('#login-btn');

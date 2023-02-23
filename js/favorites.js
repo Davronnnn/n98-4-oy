@@ -1,3 +1,8 @@
+import findElement from './utils/findElement.js';
+import renderProducts from './utils/renderProducts.js';
+import changeLoading from "./utils/changeLoading.js"
+
+
 const template = findElement('#product-template');
 
 const loader = findElement('#loader');
