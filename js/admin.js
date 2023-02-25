@@ -1,4 +1,13 @@
-import BASE_URL from './utils/api';
+import BASE_URL from './utils/api.js';
+import findElement from './utils/findElement.js';
+import renderProducts from './utils/renderProducts.js';
+
+const token = localStorage.getItem('token');
+
+if (!token) {
+	console.log('tojen');
+	window.location.href = '../index.html';
+}
 
 const elTopList = findElement('#products-top');
 const elTopTemplate = findElement('#product-template');
@@ -35,6 +44,7 @@ elForm.addEventListener('submit', (evt) => {
 		method: 'post',
 		body: JSON.stringify(newProduct),
 		headers: {
+			Authorization: 'Bearer ' + token,
 			'Content-Type': 'application/json',
 		},
 	})
@@ -62,7 +72,6 @@ const getData = async () => {
 		changeLoading(true);
 		const res = await fetch(BASE_URL + '/products');
 		if (res.status === 404) {
-			// not found
 			throw new Error('xato ketdi');
 		}
 		const res2 = await res.json();
@@ -87,6 +96,10 @@ elTopList.addEventListener('click', (evt) => {
 
 		fetch(BASE_URL + `products/${id}`, {
 			method: 'delete',
+			headers: {
+				Authorization: 'Bearer ' + token,
+				'Content-Type': 'application/json',
+			},
 		})
 			.then((res) => res.json())
 			.then((res) => {

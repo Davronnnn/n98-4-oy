@@ -11,13 +11,14 @@ function renderProducts(array, parent, template, isAdmin = false) {
 		const elRating = findElement('#rating', newProduct);
 		const elCategory = findElement('.category', newProduct);
 		const elImg = findElement('img', newProduct);
+		const elBody = findElement('#body', newProduct);
 
 		if (product.isFavorite) {
 			path.style.fill = 'red';
 		} else {
 			path.style.fill = 'none';
 		}
-
+		
 		// admin.js
 
 		if (isAdmin) {
@@ -33,8 +34,19 @@ function renderProducts(array, parent, template, isAdmin = false) {
 		elCategory.textContent = product.category;
 		elImg.src = product.image;
 
+		console.log(elBody);
+		if (elBody) {
+			elBody.textContent = product.body;
+		}
+
+		elImg.addEventListener('click', () => {
+			localStorage.setItem('id', product.id);
+			window.location.href = '../../pages/single-product.html';
+		});
+
 		parent.appendChild(newProduct);
 	});
 }
 
 export default renderProducts;
+export const a = 12;

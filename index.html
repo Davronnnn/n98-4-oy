@@ -37,15 +37,17 @@
 					<div>
 						<ul class="d-flex gap-3">
 							<li class="list-group-item">
-								<button onclick="loginHandler()" id="login-btn">
-									Kirish
-								</button>
+								<button id="login-btn">Kirish</button>
 							</li>
 							<li class="list-group-item">
 								<a href="./pages/wishes.html">Saralangan</a>
 							</li>
 							<li class="list-group-item">Savat</li>
-							<li class="list-group-item">
+							<li
+								style="display: none"
+								id="admin-link"
+								class="list-group-item"
+							>
 								<a href="./pages/admin.html">Admin</a>
 							</li>
 							<li>
@@ -76,7 +78,7 @@
 
 			<main>
 				<section class="hero">
-					<!-- <div class="swiper">
+					<div class="swiper">
 						<div class="swiper-wrapper">
 							<div class="swiper-slide">
 								<img
@@ -104,7 +106,7 @@
 
 						<div class="swiper-button-prev"></div>
 						<div class="swiper-button-next"></div>
-					</div> -->
+					</div>
 				</section>
 
 				<section class="popular-products my-5">
@@ -121,7 +123,9 @@
 					<ul
 						id="products-top"
 						class="products-top row gap-1 my-3 justify-content-between"
-					></ul>
+					>
+					
+				</ul>
 				</section>
 			</main>
 		</div>

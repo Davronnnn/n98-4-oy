@@ -9,6 +9,32 @@ const elTopTemplate = findElement('#product-template');
 const ulCategories = findElement('#categories');
 const loader = findElement('#loader');
 
+const loginBtn = findElement('#login-btn');
+const adminLink = findElement('#admin-link');
+
+let token = localStorage.getItem('token');
+
+if (token) {
+	loginBtn.textContent = 'Chiqish';
+	adminLink.style.display = 'block';
+} else {
+	adminLink.style.display = 'none';
+	loginBtn.textContent = 'Kirish';
+}
+
+loginBtn.addEventListener('click', () => {
+	let token = localStorage.getItem('token');
+
+	if (token) {
+		adminLink.style.display = 'none';
+		localStorage.removeItem('token');
+
+		loginBtn.textContent = 'Kirish';
+	} else {
+		window.location.href = '../pages/login.html';
+	}
+});
+
 let products = [];
 let favoriteProducts = [];
 let categories = [];
