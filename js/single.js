@@ -13,3 +13,4 @@ fetch(BASE_URL + 'products/' + id)
 
 		renderProducts([data], card, template);
 	});
+

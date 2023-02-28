@@ -18,7 +18,7 @@ function renderProducts(array, parent, template, isAdmin = false) {
 		} else {
 			path.style.fill = 'none';
 		}
-		
+
 		// admin.js
 
 		if (isAdmin) {
@@ -34,7 +34,6 @@ function renderProducts(array, parent, template, isAdmin = false) {
 		elCategory.textContent = product.category;
 		elImg.src = product.image;
 
-		console.log(elBody);
 		if (elBody) {
 			elBody.textContent = product.body;
 		}
