@@ -18,6 +18,23 @@ let allProductsCount = 0;
 let token = localStorage.getItem('token');
 const elPaginationList = findElement('.pagination');
 
+const elSearch = findElement('#search');
+let products = [];
+let favoriteProducts = [];
+let categories = [];
+
+elSearch.addEventListener('input', () => {
+	const value = elSearch.value;
+
+	let searchResultArray = products.filter((product) => {
+		if (product.name.includes(value)) {
+			return product;
+		}
+	});
+
+	renderProducts(searchResultArray, elTopList, elTopTemplate);
+});
+
 const getData = async () => {
 	try {
 		changeLoading(true);
@@ -87,16 +104,21 @@ elPaginationList.addEventListener('click', (evt) => {
 			);
 		}
 	}
-	if (evt.target.id === 'next') {
-		activePage++;
-
-		renderProducts(
-			products.slice(PageSize * (activePage - 1), PageSize * activePage),
-			elTopList,
-			elTopTemplate
-		);
-	}
 	const lastPage = Math.ceil(products.length / PageSize);
+	if (evt.target.id === 'next') {
+		if (activePage != lastPage) {
+			activePage++;
+
+			renderProducts(
+				products.slice(
+					PageSize * (activePage - 1),
+					PageSize * activePage
+				),
+				elTopList,
+				elTopTemplate
+			);
+		}
+	}
 
 	elPaginationList.innerHTML = `
 		<li id="prev" class="${
@@ -147,10 +169,6 @@ loginBtn.addEventListener('click', () => {
 	}
 });
 
-let products = [];
-let favoriteProducts = [];
-let categories = [];
-
 fetch(BASE_URL + 'categories')
 	.then((res) => res.json())
 	.then((res) => {
@@ -198,6 +216,11 @@ ulCategories.addEventListener('click', (evt) => {
 
 // 0 20
 
+const user = {
+	name: 'john',
+	name: 'bob',
+};
+
 elTopList.addEventListener('click', (evt) => {
 	const target = evt.target;
 
@@ -220,26 +243,10 @@ elTopList.addEventListener('click', (evt) => {
 					},
 				})
 					.then((res) => res.json())
-					.then((res) => {
-						console.log(res);
-					});
+					.then((res) => {});
 			}
 		});
 
 		renderProducts(products, elTopList, elTopTemplate);
 	}
-});
-
-const file = findElement('#file');
-
-const elImage = findElement('#test-file');
-file.addEventListener('change', (evt) => {
-	const image = file.files[0];
-
-	elImage.src = URL.createObjectURL(image);
-
-	
-	const formData = new FormData();
-
-	formData.append('image', image);
 });

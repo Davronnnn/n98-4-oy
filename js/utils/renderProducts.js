@@ -2,6 +2,7 @@ import findElement from './findElement.js';
 
 function renderProducts(array, parent, template, isAdmin = false) {
 	parent.textContent = null;
+	const fragment = document.createDocumentFragment();
 	array.forEach((product) => {
 		const newProduct = template.content.cloneNode(true);
 		const svg = findElement('svg', newProduct);
@@ -43,8 +44,10 @@ function renderProducts(array, parent, template, isAdmin = false) {
 			window.location.href = '../../pages/single-product.html';
 		});
 
-		parent.appendChild(newProduct);
+		fragment.appendChild(newProduct);
 	});
+
+	parent.appendChild(fragment);
 }
 
 export default renderProducts;

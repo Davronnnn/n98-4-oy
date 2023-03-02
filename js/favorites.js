@@ -1,7 +1,6 @@
 import findElement from './utils/findElement.js';
 import renderProducts from './utils/renderProducts.js';
-import changeLoading from "./utils/changeLoading.js"
-
+import changeLoading from './utils/changeLoading.js';
 
 const template = findElement('#product-template');
 
@@ -31,6 +30,7 @@ elParent.addEventListener('click', (evt) => {
 	const target = evt.target;
 
 	if (target.id.includes('like') || target.id === 'path') {
+		console.log(target);
 		const id = Number(target.dataset.id);
 		changeLoading(true);
 
